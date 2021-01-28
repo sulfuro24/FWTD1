@@ -2,6 +2,7 @@
 namespace controllers;
 use Ubiquity\attributes\items\router\Get;
 use Ubiquity\attributes\items\router\Post;
+use Ubiquity\utils\http\URequest;
 use Ubiquity\utils\http\USession;
 
 /**
@@ -32,7 +33,17 @@ class TodosController extends ControllerBase{
 
 	#[Post(path: "todos/add",name:"todos.add")]
 	public function addElement(){
-		
+		$list=USession::get(self::LIST_SESSION_KEY);
+		if(URequest::has('elements')){
+		    $elements=explode("\n",URequest::post('elements'));
+		    foreach($elements as $elm){
+		        $list[]=$elm;
+            }
+        }else{
+            $list[]=URequest::post('element');
+        }
+		USession::set(self::LIST_SESSION_KEY);
+		$this->displayList($list);
 	}
 
 
