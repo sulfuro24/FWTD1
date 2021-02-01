@@ -2,6 +2,7 @@
 namespace controllers;
 use Ubiquity\attributes\items\router\Get;
 use Ubiquity\attributes\items\router\Post;
+use Ubiquity\controllers\Router;
 use Ubiquity\utils\http\URequest;
 use Ubiquity\utils\http\USession;
 
@@ -14,6 +15,7 @@ class TodosController extends ControllerBase{
     const EMPTY_LIST_ID='not saved';
     const LIST_SESSION_KEY='list';
     const ACTIVE_LIST_SESSION_KEY='active-list';
+    const faux=false;
 
     public function initialize()
     {
@@ -29,12 +31,13 @@ class TodosController extends ControllerBase{
             $this->displayList($list);
         }
         $this->showMessage('Bienvenue','Todolist permet de gérer des liste...','info','info circle',[['url'=>Router::path('todos.new'),'caption'=>'Créer une nouvelle liste','style'=>'basic inverted']]);
-	}
+	var_dump($list);
+    }
 
 	#[Post(path: "todos/add",name:"todos.add")]
 	public function addElement(){
 		$list=USession::get(self::LIST_SESSION_KEY);
-		if(URequest::has('elements')){
+		if(URequest::filled('elements')){
 		    $elements=explode("\n",URequest::post('elements'));
 		    foreach($elements as $elm){
 		        $list[]=$elm;
@@ -42,20 +45,42 @@ class TodosController extends ControllerBase{
         }else{
             $list[]=URequest::post('element');
         }
-		USession::set(self::LIST_SESSION_KEY);
-		$this->displayList($list);
-	}
+		USession::set(self::LIST_SESSION_KEY,$list);
+        $this->showMessage('Nouvelle Liste','liste correctement créée','info','check square outline');
+        $this->displayList($list);
+		}
 
 
 	#[Get(path: "todos/delete/(.+?)/",name:"todos.delete")]
 	public function deleteElement($index){
-		
+        $list=USession::get(self::LIST_SESSION_KEY);
+        if(URequest::filled('elements')){
+            $elements=explode("\n",URequest::post('elements'));
+            foreach($elements as $elm){
+                $list[]=$elm;
+            }
+        }else{
+            $list[]=URequest::post('element');
+        }
+        USession::set(self::LIST_SESSION_KEY,$list);
+
 	}
 
 
 	#[Post(path: "todos/edit/(.+?)/",name:"todos.edit")]
 	public function editElement($index){
-		
+        $list=USession::get(self::LIST_SESSION_KEY);
+        if(URequest::filled('elements')){
+            $elements=explode("\n",URequest::post('elements'));
+            foreach($elements as $elm){
+                $list[]=$elm;
+            }
+        }else{
+            $list[]=URequest::post('element');
+        }
+        USession::set(self::LIST_SESSION_KEY,$list);
+
+
 	}
 
 
@@ -66,9 +91,10 @@ class TodosController extends ControllerBase{
 
 
 	#[Get(path: "todos/new/{force}",name:"todos.new")]
-	public function newlist($force=fasle){
-		USession::set(self::LIST_SESSION_KEY);
-		$this.$this->displayList([]);
+	public function newlist($force=self::faux){
+        $list= [];
+		USession::set(self::LIST_SESSION_KEY,$list);
+		$this->displayList([]);
 	}
 
 
@@ -92,6 +118,6 @@ class TodosController extends ControllerBase{
     }
 
     private function showMessage(string $header, string $message, string $type = '', string $icon = 'info circle',array $buttons=[]) {
-        $this->loadView('main/message.html', compact('header', 'type', 'icon', 'message','buttons'));
+        $this->loadView('TodosController/showMessage.html', compact('header', 'type', 'icon', 'message','buttons'));
     }
 }
