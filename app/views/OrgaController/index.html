@@ -1,0 +1,9 @@
+<ul>
+    {%  for orga in orgas %}
+        <li><h1>{{orga}}</h1></li>
+        <li><h3>Groupe</h3></li>
+        {%  for group in orga.groupes %}
+            <li>{{ group }}</li>
+        {% endfor %}
+    {% endfor %}
+</ul>
