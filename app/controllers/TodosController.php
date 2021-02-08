@@ -26,12 +26,11 @@ class TodosController extends ControllerBase{
 
     public function index()
     {
-        if (USession::exists(self::LIST_SESSION_KEY)) {
+        /*if (USession::exists(self::LIST_SESSION_KEY)) {
             $list = USession::get(self::LIST_SESSION_KEY);
             $this->displayList($list);
-        }
+        }*/
         $this->showMessage('Bienvenue','Todolist permet de gérer des liste...','info','info circle',[['url'=>Router::path('todos.new'),'caption'=>'Créer une nouvelle liste','style'=>'basic inverted']]);
-	var_dump($list);
     }
 
 	#[Post(path: "todos/add",name:"todos.add")]

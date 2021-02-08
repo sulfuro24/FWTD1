@@ -7,13 +7,16 @@
         {% endfor %}
         <div class="item">
             <form class="ui inline inverted form" action="todos/add/" method="post">
-                <div class="two fields _form" style="display: none">
-                    <textarea placeholder="Saisir vos éléments sur chaque ligne" name="elements" rows="5"></textarea>
-                    <button class="ui mini green icon button"><i class="ui check circle outline icon"></i></button>
-                </div>
-                <div class="field _form">
-                    <input placeholder="Nouvel élément" name="element">
-                </div>
+                {% if this.getElementByID("multiple") %}
+                    <div class="two fields _form">
+                        <textarea placeholder="Saisir vos éléments sur chaque ligne" name="elements" rows="5"></textarea>
+                       <button class="ui mini green icon button"><i class="ui check circle outline icon"></i></button>
+                    </div>
+                {% else %}
+                    <div class="field _form">
+                      <input placeholder="Nouvel élément" name="element">
+                    </div>
+                {% endif %}
             </form>
         </div>
     </div>
