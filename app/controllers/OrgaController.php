@@ -2,10 +2,12 @@
 namespace controllers;
 
  use http\Client\Curl\User;
+ use models\Groupe;
  use models\Organization;
  use Ubiquity\attributes\items\router\Route;
  use Ubiquity\orm\DAO;
  use Ubiquity\orm\repositories\ViewRepository;
+ use Ubiquity\utils\http\URequest;
 
 
  /**
@@ -29,5 +31,30 @@ class OrgaController extends ControllerBase{
         $orga=DAO::getById(Organization::class,$id,['users.groupes','groupes.users']);
         $this->loadDefaultView(['orga'=>$orga]);
 	}
+	#[Route()]
+    public function getOrga($name,$aliases){
+        $orga=DAO::getOne(Organization::class,"name=? and aliases=? ",parameters: [$name,$aliases]);
+    }
+    public function testInsert(){
+        $groupe= new Groupe();
+        URequest::setValuesToObject($groupe);
+        $idOrga=URequest::post('idOrga');
+        $orga=DAO::getById(Organization::class,$idOrga);
+        $groupe->setOrganization($orga);
+        DAO::insert($orga);
+    }
+    public function testUpdate(){
+        $groupe=DAO::getById(Groupe::class,URequest::post('idGroup'));
+        URequest::setValuesToObject($groupe);
+        $idOrga=URequest::post('idOrga');
+        $orga=DAO::getById(Organization::class,$idOrga);
+        $groupe->setOrganization($orga);
+        $idUser=explode('.',URequest::post('idUser'));
+        $users=DAO::getAllByIds(User::class,$idUser);
+        foreach ($users as $user){
+            $groupe->addUser($user);
+        }
+        DAO::update($orga,true);
+    }
 
 }
