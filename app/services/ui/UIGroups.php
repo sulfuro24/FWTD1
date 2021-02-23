@@ -6,9 +6,11 @@ namespace services\ui;
 
  /**
   * Class UIGroups
+  * @property
   */
 class UIGroups extends Ajax\php\ubiquity\UIService{
     private $semantic;
+
 
     public function __construct(Controller $controller)
     {
@@ -19,6 +21,19 @@ class UIGroups extends Ajax\php\ubiquity\UIService{
         }
     }
     public function listGroups(array $groups){
-        $this->semantic->dataTable();
+        $dt=$this->semantic->dataTable('dt-groups',Group::class,$groups);
+        $dt->setFields(['name','email']);
+        $dt->fieldAsLabel('email','mail');
+        $dt->addDeleteButton();
     }
+    public function orgaForm(\model\Organization $orga){
+        $frm=$this->semantic->dataForm('frmOrga',$orga);
+        $frm->setFields(['id','name','domain','submit']);
+        $frm->FieldsAsHidden(['id']);
+        $frm->FieldAsLabeledInput('name',['rules'=>'empty']);
+        $frm->fieldAsLabeledInput('domain',['rules'=>['empty','email']]);
+        $frm->SetValidationParams(["on"=>"blur","inline"=>true]);
+    }
+
+
 }
