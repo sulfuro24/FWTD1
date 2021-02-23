@@ -6,5 +6,15 @@ use Ubiquity\controllers\crud\CRUDEvents;
   * Class CrudUserEvents
   */
 class CrudUserEvents extends CRUDEvents{
-	//use override/implement Methods
+    public function onBeforeUpdateRequest(array &$requestValues, bool $isNew)
+    {
+        parent::onBeforeUpdateRequest($requestValues, $isNew);
+    }
+
+    public function onBeforeUpdate(object $instance, bool $isNew)
+    {
+        parent::onBeforeUpdate($instance, $isNew);
+    }
+
+
 }

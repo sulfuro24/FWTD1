@@ -63,4 +63,22 @@ protected function getAuthController(): AuthController
     public function addOrga(){
         var_dump($_POST);
     }
+    #[Get('newUser',name:'newUser')]
+    public function newUser($orga){
+        $this->uiService->UserForm(new User());
+        $this->jquery->renderDefaultView();
+    }
+    #[Post('addUser',name:'addUser')]
+    public function addUser(){
+        var_dump($_POST);
+    }
+    #[Get('newGroup',name:'newGroup')]
+    public function newGroup($orga){
+        $this->uiService->GroupForm(new Group());
+        $this->jquery->renderDefaultView();
+    }
+    #[Post('addGroup',name:'addGroup')]
+    public function addGroup(){
+        var_dump($_POST);
+    }
 }
