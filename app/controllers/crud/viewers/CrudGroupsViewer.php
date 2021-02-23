@@ -3,9 +3,9 @@ namespace controllers\crud\viewers;
 
 use Ubiquity\controllers\crud\viewers\ModelViewer;
  /**
-  * Class CrudUserViewer
+  * Class CrudGroupsViewer
   */
-class CrudUserViewer extends ModelViewer{
+class CrudGroupsViewer extends ModelViewer{
     public function getCaptions($captions, $className)
     {
         $dt= parent::getCaptions($captions, $className);
@@ -57,6 +57,4 @@ class CrudUserViewer extends ModelViewer{
     public function getFormCaptions($captions, $className, $instance)
     {
     }
-
-
 }

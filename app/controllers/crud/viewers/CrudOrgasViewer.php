@@ -10,7 +10,7 @@ class CrudOrgasViewer extends ModelViewer{
     {
         $dt = parent::getModelDataTable($instances, $model, $totalCount, $page);
         $dt->fieldAsLabel('domain','users');
-        $dt->setValueFunction('groups',function($v,$instance){
+        $dt->setValueFunction('groups',function($v){
             return count($v);
         });
         return dt;
