@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
 use models\User;
+use Ubiquity\controllers\auth\AuthController;
 use Ubiquity\controllers\Startup;
 use Ubiquity\orm\DAO;
 use Ubiquity\utils\http\USession;
@@ -9,7 +10,7 @@ use controllers\auth\files\LoginFiles;
 use Ubiquity\controllers\auth\AuthFiles;
 
 
-class Login extends \Ubiquity\controllers\auth\AuthController{
+class Login extends AuthController{
 
 	protected function onConnect($connected) {
 		$urlParts=$this->getOriginalURL();
@@ -27,7 +28,7 @@ class Login extends \Ubiquity\controllers\auth\AuthController{
             $password=URequest::post($this->_getPasswordInputName());
             return DAO::uGetOne(User::class, "email=? and password= ?",false,[$email,$password]);
         }
-        return;
+        return null;
 	}
 	
 	/**
@@ -48,6 +49,18 @@ class Login extends \Ubiquity\controllers\auth\AuthController{
 
     public function _getLoginInputName(){
         return "email";
+    }
+
+    protected function finalizeAuth() {
+        if(!URequest::isAjax() && Startup::getAction()!=='direct'){
+            $this->loadView('@activeTheme/main/vFooter.html');
+        }
+    }
+
+    protected function initializeAuth() {
+        if(!URequest::isAjax() && Startup::getAction()!=='direct'){
+            $this->loadView('@activeTheme/main/vHeader.html');
+        }
     }
 
 }
