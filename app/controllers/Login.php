@@ -46,6 +46,8 @@ class Login extends \Ubiquity\controllers\auth\AuthController{
 		return new LoginFiles();
 	}
 
-
+    public function _getLoginInputName(){
+        return "email";
+    }
 
 }
