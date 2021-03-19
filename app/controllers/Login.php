@@ -18,7 +18,7 @@ class Login extends AuthController{
 		if(isset($urlParts)){
 			$this->_forward(implode("/",$urlParts));
 		}else{
-            Startup::forward("admin");
+            Startup::forward("");
 		}
 	}
 
