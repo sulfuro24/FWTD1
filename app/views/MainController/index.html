@@ -1,1 +1,53 @@
-<!--View associated to index action of MainController controller -->
+<div class="ui  segment">
+<h3 class="ui block header">
+    Menu
+    <button class="ui yellow button">{{ user.email }}</button>
+    <button class="ui labeled icon button"><i class="shop icon"></i>Panier</button>
+</h3>
+    <div class="ui segment">
+        <div class="ui two column divided grid">
+            <div class="colomn">
+                <div class="ui segment">
+                    <h4>Sections :</h4>
+                    {% for section in sections %}
+                    <a href="Section.html">{{ section.name}}</a><br>
+                    {% endfor %}
+                </div>
+            </div>
+<div class="colomn" >
+    <fieldset style="float: left; width: 50%">
+        <legend>Store</legend>
+        <button class="ui teal button">Mes commandes ({{ nbcommande }})</button>
+        <button class="ui teal button">Parcourir le store</button>
+    </fieldset>
+    <fieldset>
+        <legend>Paniers</legend>
+        <button class="ui green button">Nouveau...</button>
+        <button class="ui teal button">Mes paniers ({{ nbPanier }})</button>
+    </fieldset>
+    <br>
+    <fieldset>
+        <legend>Promotions en cours</legend>
+        <div class ="ui segment">
+            {%  for prodRed in prodReds %}
+
+                <div class="ui message">{{ prodRed.name }}<br>{{ prodRed.price }} €</div>
+            {% endfor %}
+
+        </div>
+    </fieldset>
+    <br>
+    <fieldset>
+        <legend>Consulté récement</legend>
+        <div class ="ui segment">
+            <h3>Nom de la section</h3>
+        </div>
+        <div class ="ui segment">
+
+
+        </div>
+    </fieldset>
+</div>
+</div>
+</div>
+</div>
